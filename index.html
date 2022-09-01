@@ -1,0 +1,75 @@
+<canvas id="ctx" width="500px" height="500px" style="border: solid 1px"></canvas>
+<script>
+var ctx = document.getElementById('ctx').getContext('2d')
+var kartinka = {}
+kartinka.player = new Image()
+kartinka.player.src = 'player.png'
+var an =0
+var player = {
+x:0,
+y:0,
+go:0,
+attack:0,
+fase:'right'
+}
+document.onkeydown = function(event){
+	
+if(event.keyCode === 68){
+player.x+=5
+player.go = 1
+player.fase = 'right'
+}
+if(event.keyCode === 65){
+player.x-=5
+player.go = 1
+player.fase = 'left'
+}
+
+if(event.keyCode === 87){
+player.y-=5
+player.go = 1
+}
+if(event.keyCode === 83){
+player.y+=5
+player.go = 1
+}
+}
+document.onmousedown = function(mouse){
+player.attack= 25
+}
+setInterval(function(){
+an +=0.3
+player.attack-=1
+//ctx.scale(-1,1)
+ctx.clearRect(0,0,500,500)
+if(player.fase === 'right'){
+if(player.attack<0){
+if(player.go === 0){
+var an2 = Math.floor(an) % 13
+ctx.drawImage(kartinka.player,an2*32,0,32,32,player.x,player.y,100,100)
+}else{
+var an2 = Math.floor(an) % 8
+ctx.drawImage(kartinka.player,an2*32,0+32,32,32,player.x,player.y,100,100)
+}
+}else{
+var an2 = Math.floor(an) % 10
+ctx.drawImage(kartinka.player,an2*32,0+32+32,32,32,player.x,player.y,100,100)
+}
+}else{
+ctx.scale(-1,1)
+if(player.attack<0){
+if(player.go === 0){
+var an2 = Math.floor(an) % 13
+ctx.drawImage(kartinka.player,an2*32,0,32,32,-player.x-100,player.y,100,100)
+}else{
+var an2 = Math.floor(an) % 8
+ctx.drawImage(kartinka.player,an2*32,0+32,32,32,-player.x-100,player.y,100,100)
+}
+}else{
+var an2 = Math.floor(an) % 10
+ctx.drawImage(kartinka.player,an2*32,0+32+32,32,32,-player.x-100,player.y,100,100)
+}
+}
+player.go = 0
+},1000/25)
+</script>
